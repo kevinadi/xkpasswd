@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<title>xkpasswd</title>
+	<link rel="stylesheet" href="css/bulma.min.css"></link>
+	<script src="lib/vue.min.js"></script>
+	<script src="lib/clipboard.min.js"></script>
+    <script src="build/build.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes"></meta>
+  </head>
+  <body>
+	<div id="xk">
+	  <section class="section">
+		<div class="columns">
+		  <div class="column message">
+			<div class="message-header">xkpasswd <span>v0.1.0</span></div>
+			<div class="message-body">
+			  <div class="field">
+				<label class="label" for="pattern">Pattern</label>
+				<input class="input" id="pattern" v-model="pattern"></input>
+			  </div>
+			  <div class="field">
+				<label class="label" for="number">Number</label>
+				<input class="input" id="number" v-model="number"></input>
+			  </div>
+			  <div class="field">
+				<button class="button is-link" v-on:click="generate()">Generate</button>
+			  </div>
+			</div>
+		  </div>
+	  	  <div class="column">
+			<div class="message-header">Output</div>
+			<div class="message-body">
+			  <table class="table is-striped is-fullwidth">
+				<tbody>
+	  			  <tr v-for="line in output">
+					<td><button class="btn button is-light is-small" :data-clipboard-text=line>Copy</button></td>
+					<td>{{line}}</td>
+				  </tr>
+				</tbody>
+			  </table>
+			</div>
+		  </div>
+		</div>
+	  </section>
+	</div>
+	<script>
+	  var xk_app = new Vue({
+	  	el: '#xk',
+	  	data: {
+	  	  output: [],
+		  pattern: 'W-w-w-dd',
+		  number: 3,
+	  	},
+	  	methods: {
+	  	  generate: function () {
+	  		var outputarray = []
+			var options = {
+			  pattern: this.pattern,
+			}
+	  		for (var i = 0; i < this.number; i++) {
+			  output = genpasswd(options)
+	  		  outputarray.push(output)
+	  		}
+	  		this.output = outputarray
+	  	  }
+	  	}
+	  })
+	  var clipboard = new ClipboardJS('.btn')
+	  clipboard.on('success', function(e) {
+		console.info('Action:', alert("Copied to clipboard"));
+		console.info('Text:', e.text);
+		console.info('Trigger:', e.trigger);
+		e.clearSelection();
+	  });
+	</script>
+  </body>
+</html>
