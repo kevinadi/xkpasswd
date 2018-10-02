@@ -1,7 +1,5 @@
-var fs = require('fs')
-var fileContents = fs.readFileSync(__dirname + '/nouns.txt').toString()
-var data = fileContents.split('\n')
-var datalen = data.length - 1
+import {nouns} from './nouns'
+var datalen = nouns.length - 1
 
 function random(max) {
   return Math.floor(Math.random() * max)
@@ -16,13 +14,13 @@ function xkpasswd(opt) {
   opt.pattern.split('').forEach(function (x) {
 	switch (x) {
 	case "w":
-	  output.push(data[random(datalen)])
+	  output.push(nouns[random(datalen)])
 	  break
 	case "W":
-	  output.push(titlecase(data[random(datalen)]))
+	  output.push(titlecase(nouns[random(datalen)]))
 	  break
 	case "d":
-	  output.push(random(10))
+	  output.push(random(9))
 	  break
 	default:
 	  output.push(x)
